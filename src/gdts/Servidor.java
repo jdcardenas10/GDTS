@@ -1,5 +1,5 @@
 package gdts;
 
-public class Servidor {
+public class Servidor extends Thread{
 
 }
