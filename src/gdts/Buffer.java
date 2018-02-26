@@ -6,12 +6,10 @@ public class Buffer
 {
 	//Atributos
 	
-	//Número de Clientes
+	//Numero de Clientes
 	int numeroClientes;
 	
-	//Cola
-	
-	//tamaño de la cola
+	//tamanio de la cola
 	int tamanioCola;
 	
 	//capacidad del buffer
@@ -22,7 +20,6 @@ public class Buffer
 	
 	public Buffer(int pCapacidad, int pNumeroClientes) 
 	{
-		// TODO Auto-generated constructor stub
 		this.capacidadBuffer=pCapacidad;
 		this.tamanioCola= 0;
 		numeroClientes=pNumeroClientes;
@@ -31,26 +28,28 @@ public class Buffer
 	
 	//Metodos
 	
-	//dar el número de clientes
-	public synchronized int darNumeroClientes()
-	{
-		return numeroClientes;
-	}
+	//dar el numero de clientes
+	//public synchronized int darNumeroClientes()
+	//{
+		//return numeroClientes;
+	//}
 	//El mensaje se ha entregado o no 
 	
 	public synchronized boolean entregado(Mensaje men) throws InterruptedException
 	{
-		boolean mensajeEnviado= false;
+		//boolean mensajeEnviado= false;
 		
 		if(tamanioCola<capacidadBuffer)
 		{
 			System.out.println(men.getInfoMensaje());
 			tamanioCola++;
 			colaDEspera.enqueue(men);
-			mensajeEnviado=true;
-			notifyAll();
+			return true;
+			//notifyAll();
 		}
-		return mensajeEnviado;
+		
+		//notifyAll();
+		return false;
 	}
 	
 	//se concume el mensaje
@@ -68,6 +67,7 @@ public class Buffer
 		}
 		tamanioCola--;
 		
+		notifyAll();
 		return colaDEspera.dequeue();
 	}
 	

@@ -5,7 +5,7 @@ public class Mensaje
 	//Atributos
 	
 	//Relacion con el buffer
-	public static Buffer buffer;
+	//public static Buffer buffer;
 	
 	//Contenido del mensaje-Consulta
 	public int info;
@@ -13,34 +13,45 @@ public class Mensaje
 	//Constructor
 	public Mensaje(int pInfo) 
 	{
-	// TODO Auto-generated constructor stub
 		info=pInfo;
 	}
 	
-	//Métodos
+	//Metodos
 	
 	//enviar mensaje
-	public boolean enviarMensaje() throws InterruptedException
-	{
-		boolean enviado= buffer.entregado(this);
-		return enviado;
-	}
+	//public synchronized boolean enviarMensaje() throws InterruptedException
+	//{
+		//boolean enviado= buffer.entregado(this);
+		//return enviado;
+	//}
 	
-	//dar información de los mensaje
+	//dar informacion de los mensaje
 	public int getInfoMensaje()
 	{
 		return info;
 	}
 	
-	//asignar la información del mensaje 
-	public void setInfoMensaje(int pInfo)
+	//asignar la informaciï¿½n del mensaje 
+	public synchronized void setInfoMensaje(int pInfo)
 	{
 		this.info=pInfo;
 
 	}
 	
-	public static void darUltimoMensaje()
-	{
-		buffer.numeroClientes--;
+	//public static void darUltimoMensaje()
+	//{
+		//buffer.numeroClientes--;
+	//}
+	
+	public synchronized void notificar(){
+		notify();
+	}
+	
+	public synchronized void esperar(){
+		try {
+			wait();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 }
