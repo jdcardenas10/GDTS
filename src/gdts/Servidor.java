@@ -1,3 +1,8 @@
+/**
+ * Seccion 2
+ * @author Jose Daniel Cardenas Rincon 	201313488
+ * @author David Alejandro Cortes Vesga      
+ */
 package gdts;
 
 public class Servidor extends Thread{
@@ -13,10 +18,10 @@ public class Servidor extends Thread{
 	
 	public void run(){
 		try {
-			while(buffer.numeroClientes!=0){
+			while(buffer.hayClientes()){
 				Mensaje mensaje=buffer.consumirMensaje();
-				mensaje.setInfoMensaje(mensaje.getInfoMensaje()+1);
-				mensaje.notificar();
+				if (mensaje!=null){mensaje.setInfoMensaje(mensaje.getInfoMensaje()+1);
+				mensaje.notificar();}
 			}
 		} catch (InterruptedException e) {
 			e.printStackTrace();

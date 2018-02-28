@@ -1,3 +1,8 @@
+/**
+ * Seccion 2
+ * @author Jose Daniel Cardenas Rincon 	201313488
+ * @author David Alejandro Cortes Vesga      
+ */
 package gdts;
 
 import sun.misc.Queue;
@@ -7,16 +12,16 @@ public class Buffer
 	//Atributos
 	
 	//Numero de Clientes
-	int numeroClientes;
+	private int numeroClientes;
 	
 	//tamanio de la cola
-	int tamanioCola;
+	private int tamanioCola;
 	
 	//capacidad del buffer
-	int capacidadBuffer;
+	private int capacidadBuffer;
 	
 	//Cola con tamanio fijo
-	public Queue<Mensaje> colaDEspera;
+	private Queue<Mensaje> colaDEspera;
 	
 	public Buffer(int pCapacidad, int pNumeroClientes) 
 	{
@@ -36,19 +41,13 @@ public class Buffer
 	//El mensaje se ha entregado o no 
 	
 	public synchronized boolean entregado(Mensaje men) throws InterruptedException
-	{
-		//boolean mensajeEnviado= false;
-		
+	{	
 		if(tamanioCola<capacidadBuffer)
 		{
-			System.out.println(men.getInfoMensaje());
-			tamanioCola++;
 			colaDEspera.enqueue(men);
+			tamanioCola++;
 			return true;
-			//notifyAll();
 		}
-		
-		//notifyAll();
 		return false;
 	}
 	
@@ -59,9 +58,9 @@ public class Buffer
 		while(tamanioCola==0)
 		{
 			wait();
-			if(numeroClientes==0)
+			if(tamanioCola==0)
 			{
-				System.out.println("No se consumio");
+				notifyAll();
 				return null;
 			}
 		}
@@ -69,6 +68,16 @@ public class Buffer
 		
 		notifyAll();
 		return colaDEspera.dequeue();
+	}
+	
+	public synchronized void disminuirCliente()
+	{
+		numeroClientes--;
+	}
+	
+	public synchronized boolean hayClientes()
+	{
+		return(numeroClientes!=0);
 	}
 	
 }

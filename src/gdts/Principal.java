@@ -1,3 +1,8 @@
+/**
+ * Seccion 2
+ * @author Jose Daniel Cardenas Rincon 	201313488
+ * @author David Alejandro Cortes Vesga      
+ */
 package gdts;
 
 import java.io.File;
@@ -8,8 +13,7 @@ import java.util.Properties;
 
 public class Principal {
 
-	//Main
-		public static void main()
+		public static void main(String [] args)
 		{
 			Properties properties=new Properties();
 			try {
@@ -34,15 +38,9 @@ public class Principal {
 				}
 				
 			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
-			
-			
-			//Buffer buffer=new Buffer();
 		}
 }

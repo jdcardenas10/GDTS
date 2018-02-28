@@ -1,3 +1,8 @@
+/**
+ * Seccion 2
+ * @author Jose Daniel Cardenas Rincon 	201313488
+ * @author David Alejandro Cortes Vesga      
+ */
 package gdts;
 
 public class Cliente extends Thread
@@ -24,6 +29,7 @@ public class Cliente extends Thread
 		{
 			//boolean enviado=false;
 			Mensaje sms= new Mensaje(i);
+			System.out.println("Id Cliente: "+idT+" Mensaje inicial: "+sms.getInfoMensaje());
 			try {
 				while(!buffer.entregado(sms)){
 							//if(!enviado){
@@ -35,8 +41,9 @@ public class Cliente extends Thread
 				e.printStackTrace();
 			}
 			sms.esperar();
+			System.out.println("Id Cliente: "+idT+" Mensaje respuesta: "+sms.getInfoMensaje());
 		}
-		buffer.numeroClientes--;
+		buffer.disminuirCliente();
 	}
 
 	public int getIdT() {

@@ -1,3 +1,8 @@
+/**
+ * Seccion 2
+ * @author Jose Daniel Cardenas Rincon 	201313488
+ * @author David Alejandro Cortes Vesga      
+ */
 package gdts;
 
 public class Mensaje 
@@ -26,7 +31,7 @@ public class Mensaje
 	//}
 	
 	//dar informacion de los mensaje
-	public int getInfoMensaje()
+	public synchronized int getInfoMensaje()
 	{
 		return info;
 	}
