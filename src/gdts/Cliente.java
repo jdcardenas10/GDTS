@@ -1,55 +1,59 @@
 /**
  * Seccion 2
  * @author Jose Daniel Cardenas Rincon 	201313488
- * @author David Alejandro Cortes Vesga      
+ * @author David Alejandro Cortes Vesga 201423363     
  */
 package gdts;
 
 public class Cliente extends Thread
 {
+	/////////////Atributos///////////////////
+	
     //identificador cliente
 	private int idT;
 	
-	//N�mero de mensajes enviados
+	//Numero de mensajes enviados
 	private int numSMS;
 	
 	public static Buffer buffer;
 	
-    //Constructor
+	///////////////Constructor///////////////////
+	
+    //Constructor del cliente
 	public Cliente(int pIdT, int pMensajes)
 	{
 		setIdT(pIdT);
 		numSMS=pMensajes;
 	}
 	
-	//Run -falta completar
+	/////////////////Metodos//////////////////////
+	
+	//El metodo Run del hilo cliente
 	public void run()
 	{
 		for (int i = 0; i < numSMS; i++)
 		{
-			//boolean enviado=false;
-			Mensaje sms= new Mensaje(i);
-			System.out.println("Id Cliente: "+idT+" Mensaje inicial: "+sms.getInfoMensaje());
+			Mensaje sms= new Mensaje(i,i);
+			System.out.println("Id Cliente: "+idT+" Id mensaje: "+sms.getId()+" Mensaje inicial: "+sms.getInfoMensaje());
 			try {
-				while(!buffer.entregado(sms)){
-							//if(!enviado){
-								yield();
-								//}
-					}
+				while(!buffer.entregado(sms)){yield();}
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
+				
 				e.printStackTrace();
 			}
 			sms.esperar();
-			System.out.println("Id Cliente: "+idT+" Mensaje respuesta: "+sms.getInfoMensaje());
+			System.out.println("Id Cliente: "+idT+" Id mensaje: "+sms.getId()+" Mensaje respuesta: "+sms.getInfoMensaje());
+			//if(i+1==numSMS){buffer.disminuirCliente();}
 		}
 		buffer.disminuirCliente();
 	}
 
+	//Devuelve el id del cliente
 	public int getIdT() {
 		return idT;
 	}
 
+	//Modifica el id del cliente 
 	public void setIdT(int idT) {
 		this.idT = idT;
 	}

@@ -1,7 +1,7 @@
 /**
  * Seccion 2
  * @author Jose Daniel Cardenas Rincon 	201313488
- * @author David Alejandro Cortes Vesga      
+ * @author David Alejandro Cortes Vesga 201423363     
  */
 package gdts;
 
@@ -12,7 +12,10 @@ import java.io.IOException;
 import java.util.Properties;
 
 public class Principal {
-
+	
+		///////////////////Main///////////////////////////
+	
+		//Metodo Main del programa
 		public static void main(String [] args)
 		{
 			Properties properties=new Properties();
@@ -28,13 +31,11 @@ public class Principal {
 				Servidor.buffer=buffer;
 				
 				for( int i=0;i<numClientes;i++){
-					Cliente cliente=new Cliente(i,Integer.parseInt(properties.getProperty("nCliente"+i)));
-					cliente.start();
+					(new Cliente(i,Integer.parseInt(properties.getProperty("nCliente"+i)))).start();
 				}
 				
 				for( int i=0;i<numServidores;i++){
-					Servidor servidor=new Servidor(i);
-					servidor.start();
+					(new Servidor(i)).start();
 				}
 				
 			} catch (FileNotFoundException e) {

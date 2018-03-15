@@ -1,15 +1,16 @@
 /**
  * Seccion 2
  * @author Jose Daniel Cardenas Rincon 	201313488
- * @author David Alejandro Cortes Vesga      
+ * @author David Alejandro Cortes Vesga 201423363  
  */
 package gdts;
 
-import sun.misc.Queue;
+import java.util.LinkedList;
+
 
 public class Buffer 
 {
-	//Atributos
+	/////////////Atributos///////////////////
 	
 	//Numero de Clientes
 	private int numeroClientes;
@@ -21,63 +22,62 @@ public class Buffer
 	private int capacidadBuffer;
 	
 	//Cola con tamanio fijo
-	private Queue<Mensaje> colaDEspera;
+	private LinkedList<Mensaje> colaDeEspera;
 	
+	///////////////Constructor///////////////////
+	
+	//Constructor del Buffer
 	public Buffer(int pCapacidad, int pNumeroClientes) 
 	{
 		this.capacidadBuffer=pCapacidad;
 		this.tamanioCola= 0;
 		numeroClientes=pNumeroClientes;
-		colaDEspera= new Queue<>();
+		//colaDeEspera=new ArrayList<Mensaje>();
+		colaDeEspera= new LinkedList<Mensaje>();
 	}
 	
-	//Metodos
+	/////////////////Metodos//////////////////////
 	
-	//dar el numero de clientes
-	//public synchronized int darNumeroClientes()
-	//{
-		//return numeroClientes;
-	//}
-	//El mensaje se ha entregado o no 
-	
+	//Prueba entrgar el mensajo. Devuelve false si no lo logra, tru de lo contrario
 	public synchronized boolean entregado(Mensaje men) throws InterruptedException
 	{	
 		if(tamanioCola<capacidadBuffer)
 		{
-			colaDEspera.enqueue(men);
+			if(tamanioCola==0){notifyAll();}
+			colaDeEspera.add(men);
 			tamanioCola++;
 			return true;
 		}
 		return false;
 	}
 	
-	//se concume el mensaje
-	
+	//Se consume el mensaje y se extrae del buffer 
 	public synchronized Mensaje consumirMensaje() throws InterruptedException
 	{
-		while(tamanioCola==0)
+		while(tamanioCola==0&&numeroClientes>0)
 		{
-			wait();
-			if(tamanioCola==0)
-			{
-				notifyAll();
-				return null;
-			}
-		}
+			wait();				
+		}		
+		if(tamanioCola==0){return null;}
 		tamanioCola--;
 		
-		notifyAll();
-		return colaDEspera.dequeue();
+		return colaDeEspera.removeFirst();
 	}
 	
+	//Disminuye la cantidad de clientes en uno
 	public synchronized void disminuirCliente()
 	{
 		numeroClientes--;
 	}
 	
+	//Indica si aun hay algun cliente en el sistema
 	public synchronized boolean hayClientes()
 	{
-		return(numeroClientes!=0);
+		return(numeroClientes>0);
 	}
-	
+
+	//Despierta a todos los objetos dormidos en el buffer
+	public synchronized void notificarTodos() {
+		notifyAll();
+	}	
 }
